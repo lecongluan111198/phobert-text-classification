@@ -81,7 +81,7 @@ if args.mode == "train-test":
 
     BERT_SA = load_model(len(target_names))
     # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    device = 'cpu'
+    device = 'cuda'
     epochs = 10
     param_optimizer = list(BERT_SA.named_parameters())
     no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
@@ -117,8 +117,6 @@ if args.mode == "train-test":
 
             logits = outputs[1].detach().cpu().numpy()
             label_ids = b_labels.to('cpu').numpy()
-            print(logits)
-            print(label_ids)
             tmp_train_accuracy, tmp_train_f1 = flat_accuracy(logits, label_ids)
             train_accuracy += tmp_train_accuracy
             train_f1 += tmp_train_f1

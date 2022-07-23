@@ -30,7 +30,7 @@ def load_model(num_labels):
     "../PhoBERT_base_transformers/model.bin",
     config=config
   )
-  # BERT_SA.cuda()
+  BERT_SA.cuda()
   return BERT_SA
 
 def maping_word(bpe, vocab, data, maxlen = 125):
