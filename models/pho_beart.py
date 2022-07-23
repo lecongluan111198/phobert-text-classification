@@ -7,7 +7,7 @@ import argparse
 def load_bpe():
   parser = argparse.ArgumentParser()
   parser.add_argument('--bpe-codes',
-      default="./PhoBERT_base_transformers/bpe.codes",
+      default="../PhoBERT_base_transformers/bpe.codes",
       required=False,
       type=str,
       # help='path to fastBPE BPE'
@@ -18,16 +18,16 @@ def load_bpe():
 
 def load_vocab():
   vocab = Dictionary()
-  vocab.add_from_file("./PhoBERT_base_transformers/dict.txt")
+  vocab.add_from_file("../PhoBERT_base_transformers/dict.txt")
   return vocab
 
 def load_model():
   config = RobertaConfig.from_pretrained(
-    "./PhoBERT_base_transformers/config.json", from_tf=False, num_labels=2,
+    "../PhoBERT_base_transformers/config.json", from_tf=False, num_labels=2,
     output_hidden_states=False,
   )
   BERT_SA = BertForSequenceClassification.from_pretrained(
-    "/content/drive/My Drive/BERT/SA/PhoBERT_base_transformers/model.bin",
+    "../PhoBERT_base_transformers/model.bin",
     config=config
   )
   BERT_SA.cuda()
