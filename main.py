@@ -116,8 +116,8 @@ if args.mode == "train-test":
 
             logits = outputs[1].detach().cpu().numpy()
             label_ids = b_labels.to('cpu').numpy()
-            print(type(logits))
-            print(type(label_ids))
+            print(logits)
+            print(label_ids)
             tmp_train_accuracy, tmp_train_f1 = flat_accuracy(logits, label_ids)
             train_accuracy += tmp_train_accuracy
             train_f1 += tmp_train_f1
