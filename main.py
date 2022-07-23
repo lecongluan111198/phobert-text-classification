@@ -1,10 +1,12 @@
 import argparse
 import os
+import torch
+import random
+import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from utils.load_data import load_dataset
 from models.pho_beart import load_bpe, load_vocab, maping_word, make_masks, load_model
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
-import torch
 from tqdm import tqdm_notebook
 from transformers.modeling_utils import *
 from transformers import *
@@ -17,6 +19,10 @@ parser.add_argument("--test", help="test folder")
 parser.add_argument("--s", help="path to save model")
 args = parser.parse_args()
 
+def flat_accuracy(preds, labels):
+    pred_flat = np.argmax(preds, axis=1).flatten()
+    labels_flat = labels.flatten()
+    return np.sum(pred_flat == labels_flat) / len(labels_flat)
 
 def labling_data(y_transformer, y_train):
     y_train = [item for sublist in y_train for item in sublist]
