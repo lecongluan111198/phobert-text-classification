@@ -23,10 +23,10 @@ parser.add_argument("--s", help="path to save model")
 args = parser.parse_args()
 
 def flat_accuracy(preds, labels):
-    # pred_flat = np.argmax(preds, axis=1).flatten()
-    # labels_flat = labels.flatten()
+    pred_flat = np.argmax(preds, axis=1).flatten()
+    labels_flat = labels.flatten()
     # return np.sum(pred_flat == labels_flat) / len(labels_flat)
-    return accuracy_score(preds, labels), f1_score(preds, labels)
+    return accuracy_score(pred_flat, labels_flat), f1_score(pred_flat, labels_flat)
 
 def labling_data(y_transformer, y_train):
     y_train = [item for sublist in y_train for item in sublist]
