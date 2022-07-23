@@ -70,9 +70,9 @@ if args.mode == "train-test":
     val_sampler = SequentialSampler(val_data)
     val_dataloader = DataLoader(val_data, sampler=val_sampler, batch_size=32)
 
-    BERT_SA = load_model()
+    BERT_SA = load_model(len(target_names))
     # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    device = torch.device('cpu')
+    device = 'cpu'
     epochs = 10
     param_optimizer = list(BERT_SA.named_parameters())
     no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']

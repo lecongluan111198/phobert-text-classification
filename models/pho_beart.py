@@ -23,7 +23,7 @@ def load_vocab():
 
 def load_model():
   config = RobertaConfig.from_pretrained(
-    "../PhoBERT_base_transformers/config.json", from_tf=False, num_labels=2,
+    "../PhoBERT_base_transformers/config.json", from_tf=False, num_labels=10,
     output_hidden_states=False,
   )
   BERT_SA = BertForSequenceClassification.from_pretrained(
