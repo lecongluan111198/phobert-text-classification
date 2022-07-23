@@ -11,7 +11,7 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 from tqdm import tqdm_notebook
 from transformers.modeling_utils import *
 from transformers import *
-
+from sklearn.metrics import accuracy_score, f1_score
 
 logger = get_logger()
 
@@ -23,9 +23,10 @@ parser.add_argument("--s", help="path to save model")
 args = parser.parse_args()
 
 def flat_accuracy(preds, labels):
-    pred_flat = np.argmax(preds, axis=1).flatten()
-    labels_flat = labels.flatten()
-    return np.sum(pred_flat == labels_flat) / len(labels_flat)
+    # pred_flat = np.argmax(preds, axis=1).flatten()
+    # labels_flat = labels.flatten()
+    # return np.sum(pred_flat == labels_flat) / len(labels_flat)
+    return accuracy_score(preds, labels), f1_score(preds, labels)
 
 def labling_data(y_transformer, y_train):
     y_train = [item for sublist in y_train for item in sublist]
