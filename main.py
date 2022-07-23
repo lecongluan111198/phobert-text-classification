@@ -51,7 +51,6 @@ if args.mode == "train-test":
     logger.info("%d documents (training set)" % len(X_train))
     logger.info("%d documents (test set)" % len(X_test))
     logger.info("%d categories" % len(target_names))
-    logger.info()
     #split data
     from sklearn.model_selection import train_test_split
     X_train, X_val, train_labels, val_labels = train_test_split(X_train, y_train, test_size=0.1)

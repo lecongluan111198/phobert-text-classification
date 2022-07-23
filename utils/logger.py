@@ -11,9 +11,16 @@ def get_logger():
     stdout_handler.setLevel(logging.DEBUG)
     stdout_handler.setFormatter(formatter)
 
-    file_handler = logging.FileHandler('logs.log')
-    file_handler.setLevel(logging.DEBUG)
+    file_handler = logging.FileHandler('logger.log')
+    file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
     logger.addHandler(stdout_handler)
+
+    file_handler = logging.FileHandler('logger_error.log')
+    file_handler.setLevel(logging.ERROR)
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    logger.addHandler(stdout_handler)
+    
     return logger
