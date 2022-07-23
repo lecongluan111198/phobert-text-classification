@@ -1,7 +1,7 @@
 from fairseq.data.encoders.fastbpe import fastBPE
 from fairseq.data import Dictionary
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from transformers import RobertaForSequenceClassification, RobertaConfig, AdamW
+from transformers import RobertaForSequenceClassification, RobertaConfig, AdamW, BertForSequenceClassification
 import argparse
 
 def load_bpe():
