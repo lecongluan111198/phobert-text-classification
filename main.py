@@ -5,12 +5,15 @@ import random
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from utils.load_data import load_dataset
+from utils.logger import get_logger
 from models.pho_beart import load_bpe, load_vocab, maping_word, make_masks, load_model
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 from tqdm import tqdm_notebook
 from transformers.modeling_utils import *
 from transformers import *
 
+
+logger = get_logger()
 
 parser = argparse.ArgumentParser("train.py")
 parser.add_argument("--mode", help="available modes: train-test", required=True)
@@ -37,18 +40,18 @@ if args.mode == "train-test":
     train_path = os.path.abspath(args.train)
     test_path = os.path.abspath(args.test)
 
-    print("Train model")
+    logger.info("Train model")
     model_path = os.path.abspath(args.s)
-    print("Load data")
+    logger.info("Load data")
     X_train, y_train = load_dataset(train_path)
     X_test, y_test = load_dataset(test_path)
     target_names = list(set([i[0] for i in y_train]))
     y_transformer = LabelEncoder()
     y_train = labling_data(y_transformer, y_train)
-    print("%d documents (training set)" % len(X_train))
-    print("%d documents (test set)" % len(X_test))
-    print("%d categories" % len(target_names))
-    print()
+    logger.info("%d documents (training set)" % len(X_train))
+    logger.info("%d documents (test set)" % len(X_test))
+    logger.info("%d categories" % len(target_names))
+    logger.info()
     #split data
     from sklearn.model_selection import train_test_split
     X_train, X_val, train_labels, val_labels = train_test_split(X_train, y_train, test_size=0.1)
@@ -90,8 +93,8 @@ if args.mode == "train-test":
     optimizer = AdamW(optimizer_grouped_parameters, lr=1e-5, correct_bias=False)
 
     for epoch_i in range(0, epochs):
-        print('======== Epoch {:} / {:} ========'.format(epoch_i + 1, epochs))
-        print('Training...')
+        logger.info('======== Epoch {:} / {:} ========'.format(epoch_i + 1, epochs))
+        logger.info('Training...')
 
         total_loss = 0
         BERT_SA.train()
@@ -124,11 +127,11 @@ if args.mode == "train-test":
             optimizer.step()
 
         avg_train_loss = total_loss / len(train_dataloader)
-        print(" Accuracy: {0:.4f}".format(train_accuracy / nb_train_steps))
-        print(" F1 score: {0:.4f}".format(train_f1 / nb_train_steps))
-        print(" Average training loss: {0:.4f}".format(avg_train_loss))
+        logger.info(" Accuracy: {0:.4f}".format(train_accuracy / nb_train_steps))
+        logger.info(" F1 score: {0:.4f}".format(train_f1 / nb_train_steps))
+        logger.info(" Average training loss: {0:.4f}".format(avg_train_loss))
 
-        print("Running Validation...")
+        logger.info("Running Validation...")
         BERT_SA.eval()
         eval_loss, eval_accuracy = 0, 0
         nb_eval_steps, nb_eval_examples = 0, 0
@@ -151,6 +154,6 @@ if args.mode == "train-test":
                 eval_accuracy += tmp_eval_accuracy
                 eval_f1 += tmp_eval_f1
                 nb_eval_steps += 1
-        print(" Accuracy: {0:.4f}".format(eval_accuracy / nb_eval_steps))
-        print(" F1 score: {0:.4f}".format(eval_f1 / nb_eval_steps))
-    print("Training complete!")
+        logger.info(" Accuracy: {0:.4f}".format(eval_accuracy / nb_eval_steps))
+        logger.info(" F1 score: {0:.4f}".format(eval_f1 / nb_eval_steps))
+    logger.info("Training complete!")
