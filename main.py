@@ -26,7 +26,7 @@ def flat_accuracy(preds, labels):
     pred_flat = np.argmax(preds, axis=1).flatten()
     labels_flat = labels.flatten()
     # return np.sum(pred_flat == labels_flat) / len(labels_flat)
-    return accuracy_score(pred_flat, labels_flat), f1_score(pred_flat, labels_flat)
+    return accuracy_score(labels_flat, pred_flat, average='micro'), f1_score(labels_flat, pred_flat, average='micro')
 
 def labling_data(y_transformer, y_train):
     y_train = [item for sublist in y_train for item in sublist]
